@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<!-- En este caso, "composition indica el layout con que trabaja esta pagina" -->
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/plantillas/plantilla.xhtml">
+	<ui:define name="body">
+		<h2>#{texto.registro_titulo}</h2>
+		<h:form styleClass="form">
+			<h:panelGrid columns="3" styleClass="table">
+				<!-- En este caso, el atributo value lee el texto desde un Bundle (i18n)-->
+				<h:outputLabel value="#{texto.campo_nombre}" />
+				<!-- En este caso, el atributo value invoca a las propiedades del ManagedBean -->
+				<h:inputText value="#{formulario.empleado.nombre}" required="true"
+					label="#{texto.campo_nombre}" id="txtNombre" />
+				<!-- En este caso, muestra un mensaje para un componente especifico -->
+				<h:message for="txtNombre" />
+
+				<h:outputLabel value="#{texto.campo_apellido}" />
+				<h:inputText value="#{formulario.empleado.apellido}"
+					label="#{texto.campo_apellido}" id="txtApellido">
+					<f:validateLength minimum="2" maximum="20" />
+				</h:inputText>
+				<h:message for="txtApellido" />
+
+				<h:outputLabel value="#{texto.campo_area}" />
+				<h:inputText value="#{formulario.empleado.area}"
+					label="#{texto.campo_area}" id="txtArea">
+					<f:validateRegex pattern="[a-zA-Z]{10}" />
+				</h:inputText>
+				<h:message for="txtArea" />
+
+				<h:outputLabel value="#{texto.campo_edad}" />
+				<h:inputText value="#{formulario.empleado.edad}"
+					label="#{texto.campo_edad}" id="txtEdad">
+					<f:validateLongRange minimum="18" maximum="99" />
+				</h:inputText>
+				<h:message for="txtEdad" />
+
+				<h:outputLabel value="#{texto.campo_fecha_ingreso}" />
+				<h:inputText value="#{formulario.empleado.fechaIngreso}"
+					label="#{texto.campo_fecha_ingreso}" id="txtFecha">
+					<f:convertDateTime pattern="dd/MM/yyyy" />
+				</h:inputText>
+				<h:message for="txtFecha" />
+
+				<h:outputLabel value="#{texto.campo_casillero}" />
+				<h:selectOneRadio value="#{formulario.empleado.casillero.codigo}"
+					id="slcCasillero">
+					<f:selectItems value="#{listado.casilleros}" />
+				</h:selectOneRadio>
+				<h:message for="slcCasillero" />
+
+				<h:outputLabel value="#{texto.campo_cargo}" />
+				<h:selectOneListbox value="#{formulario.empleado.cargo.codigo}"
+					size="1" id="slcCargo">
+					<f:selectItems value="#{listado.cargos}" />
+				</h:selectOneListbox>
+				<h:message for="slcCargo" />
+
+				<h:outputLabel value="#{texto.campo_habilitado}" />
+				<h:selectBooleanCheckbox value="#{formulario.empleado.estado}"
+					id="slcHabilitado" />
+				<h:message for="slcHabilitado" />
+
+				<!-- En este caso, la acción ejecuta al método del ManagedBean -->
+				<h:commandButton value="#{texto.boton_procesar}"
+					action="#{formulario.procesar}" />
+
+				<!-- En este caso, la acción se llama igual que la pagina final.xhtml -->
+				<h:commandButton value="#{texto.boton_continuar}" action="final" />
+			</h:panelGrid>
+		</h:form>
+
+		<!-- En este caso, muestra todos los mensajes almacenados en el FacesContext 
+		a menos que se configure el “globalOnly” (en cuyo caso sólo se muestran los mensajes 
+		que no están asociados a un determinado componente), por defecto es false. 
+		Además, se puede especificar el atributo “layout” con los valores de “list” 
+		(los mensajes se muestran como una lista HTML sin orden alguno) o “table” 
+		( los mensajes se muestran como tabla HTML). Finalmente, el showDetail que es un 
+		booleano que determina si se muestran los detalles del mensaje, por defecto es false.
+		-->
+		<h:messages />
+	</ui:define>
+</ui:composition>
